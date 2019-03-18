@@ -62,6 +62,7 @@ class TestPages(SetUpClass):
         resp = self.app.get('/api/v1/users/token',  headers=self.headers)
         self.assertEqual(resp.status_code, 200)
 
+
 class TestUserResource(SetUpClass):
     def test_users_post_methods(self):
         """Tests if a user can be created"""
@@ -175,22 +176,6 @@ class TestTodoResource(SetUpClass):
         data = {'id': 1, 'name': 'test_edited'}
 
         self.assertEqual(json.loads(resp.data), data)
-
-    def test_unavailable_todo_put_method(self):
-        """Tests if an unavailable to_do can be edited"""
-        self.todo = models.Todo.create(
-            name='test',
-            user=self.user
-        )
-
-        resp = self.app.put('/api/v1/todos/3243',
-                            headers=self.headers,
-                            data=json.dumps({
-                                'id': '1',
-                                'name': 'test_edited'})
-                            )
-
-        self.assertEqual(resp.status_code, 404)
 
     def test_todo_delete_method(self):
         """Tests if a to_do can be deleted"""

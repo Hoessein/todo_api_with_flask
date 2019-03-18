@@ -64,7 +64,7 @@ class Todo(Resource):
     def put(self, id):
         """allows user to edit posted todo's"""
         args = self.reqparse.parse_args()
-        query = get_object_or_404(models.Todo, models.Todo.id == id).update(**args)
+        query = models.Todo.update(**args).where(models.Todo.id == id)
         query.execute()
         return models.Todo.get(models.Todo.id == id), 200,\
                {'location': url_for('resources.todos.todo', id=id)}
